@@ -1,0 +1,24 @@
+{
+  "name": "saas-sequelize-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChristosHadjichristofi/SaaS-Sequelize-Demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChristosHadjichristofi/SaaS-Sequelize-Demo/issues"
+  },
+  "homepage": "https://github.com/ChristosHadjichristofi/SaaS-Sequelize-Demo#readme",
+  "dependencies": {
+    "custom-env": "^2.0.1",
+    "mysql2": "^3.2.3",
+    "sequelize": "^6.31.0"
+  }
+}
