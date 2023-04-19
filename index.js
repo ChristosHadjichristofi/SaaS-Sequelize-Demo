@@ -48,11 +48,11 @@ const main = async () => {
     console.log(`Found ${count} products that have price between 5 and 35`);
     console.log(rows);
 
-    // Query 6: Count the number of orders for a customer (customer_id = 1)
+    // Query 5: Count the number of orders for a customer (customer_id = 1)
     let numOfOrdersCust1 = await models.orders.count({ where: { customer_id: 1 }})
     console.log(`Customer with ID = 1 has ${numOfOrdersCust1} orders.`);
 
-    // Query 7: Insert a new order for customer_id = 1
+    // Query 6: Insert a new order for customer_id = 1
     await models.orders.create({
         customer_id: 1,
         status: "Pending",
@@ -62,7 +62,7 @@ const main = async () => {
     numOfOrdersCust1 = await models.orders.count({ where: { customer_id: 1 }})
     console.log(`Customer with ID = 1 has ${numOfOrdersCust1} orders.`);
 
-    // Query 8: Find total price of ordered items that belong to order with ID = 1
+    // Query 7: Find total price of ordered items that belong to order with ID = 1
     const { total_price_order_1 } = await models.order_items.findOne({
         attributes: [
           [ sequelize.fn('sum', sequelize.col('price')), 'total_price_order_1' ]
@@ -73,8 +73,8 @@ const main = async () => {
 
     console.log(`The total price of order with ID = 1 is ${total_price_order_1}.`);
 
-    // Query 9: Find all customers who have placed an order, along with the total number of orders each customer has placed.
-    const q9result = await models.customers.findAll({
+    // Query 8: Find all customers who have placed an order, along with the total number of orders each customer has placed.
+    const q8result = await models.customers.findAll({
         attributes: [
             'id', 'first_name', 'last_name', 
             [Sequelize.fn('COUNT', Sequelize.col('orders.id')), 'order_count']
@@ -92,10 +92,10 @@ const main = async () => {
         raw: true
     });
     
-    console.log(q9result);
+    console.log(q8result);
 
-    // Query 10: Find the top 5 most expensive products, along with the total number of orders each product has been ordered in.
-    const q10result = await models.products.findAll({
+    // Query 9: Find the top 5 most expensive products, along with the total number of orders each product has been ordered in.
+    const q9result = await models.products.findAll({
         attributes: [
             'id',
             'name',
@@ -113,10 +113,10 @@ const main = async () => {
         raw: true
     });
       
-    console.log(q10result);
+    console.log(q9result);
 
-    // Query 11: Find all customers who have placed an order in the last 30 days, along with the total value of orders for each customer.
-    const q11result = await models.customers.findAll({
+    // Query 10: Find all customers who have placed an order in the last 30 days, along with the total value of orders for each customer.
+    const q10result = await models.customers.findAll({
         attributes: [
             'id', 'first_name', 'last_name',
             [Sequelize.fn('SUM', Sequelize.col('orders.order_items.price')), 'total_value'],
@@ -142,10 +142,10 @@ const main = async () => {
         raw: true
     });
       
-    console.log(q11result);
+    console.log(q10result);
 
-    // Query 12: Find all orders that have at least one product with a price greater than $90, along with the total number of such products in each order.
-    const q12result = await models.orders.findAll({
+    // Query 11: Find all orders that have at least one product with a price greater than $90, along with the total number of such products in each order.
+    const q11result = await models.orders.findAll({
         attributes: [
             'id', 'status', 'order_date',
             [Sequelize.fn('SUM', Sequelize.literal('(order_items.price > 90)')), 'product_count']
@@ -159,7 +159,7 @@ const main = async () => {
         raw: true
     });
 
-    console.log(q12result);
+    console.log(q11result);
 }
 
 
