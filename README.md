@@ -18,3 +18,12 @@
     10. Find the top 5 most expensive products, along with the total number of orders each product has been ordered in
     11. Find all customers who have placed an order in the last 30 days, along with the total value of orders for each customer
     12. Find all orders that have at least one product with a price greater than $90, along with the total number of such products in each order
+
+## .Env File Template
+```
+DB=<db_name>
+DB_USER=<db_user>
+DB_PASS=<db_pw>
+DB_HOST=<db_host>
+DB_PORT=3306
+```
