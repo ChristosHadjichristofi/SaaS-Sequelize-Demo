@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS dummy_shop;
+
+USE dummy_shop;
+
 CREATE TABLE IF NOT EXISTS customers (
   id INT PRIMARY KEY AUTO_INCREMENT,
   first_name VARCHAR(255) NOT NULL,
