@@ -56,13 +56,13 @@ const main = async () => {
         },
         raw: true
     });
-    console.table(`Found ${count} products that have price between 5 and 35`);
+    console.log(`Found ${count} products that have price between 5 and 35`);
     console.table(rows);
 
     // Query 6: Count the number of orders for a customer (customer_id = 1)
     logWithFormatting("Query 6: Count the number of orders for a customer (customer_id = 1)");
     let numOfOrdersCust1 = await models.orders.count({ where: { customer_id: 1 }})
-    console.table(`Customer with ID = 1 has ${numOfOrdersCust1} orders.`);
+    console.log(`Customer with ID = 1 has ${numOfOrdersCust1} orders.`);
 
     // Query 7: Insert a new order for customer_id = 1
     logWithFormatting("Query 7: Insert a new order for customer_id = 1");
@@ -85,7 +85,7 @@ const main = async () => {
         raw: true
     })
 
-    console.table(`The total price of order with ID = 1 is ${total_price_order_1}.`);
+    console.log(`The total price of order with ID = 1 is ${total_price_order_1}.`);
 
     // Query 9: Find all customers who have placed an order, along with the total number of orders each customer has placed.
     logWithFormatting("Query 9: Find all customers who have placed an order, along with the total number of orders each customer has placed");
@@ -135,30 +135,32 @@ const main = async () => {
     logWithFormatting("Query 11: Find all customers who have placed an order in the last 30 days, along with the total value of orders for each customer");
     const q11result = await models.customers.findAll({
         attributes: [
-            'id', 'first_name', 'last_name',
-            [Sequelize.fn('SUM', Sequelize.col('orders.order_items.price')), 'total_value'],
+          'id',
+          'first_name',
+          'last_name',
+          [Sequelize.fn('SUM', Sequelize.col('price')), 'total_value'],
         ],
         include: [
-            {
-                model: models.orders,
-                where: {
-                    order_date: {
-                        [Sequelize.Op.gte]: Sequelize.literal('DATE_SUB(NOW(), INTERVAL 30 DAY)')
-                    }
-                },
+          {
+            model: models.orders,
+            attributes: [],
+            include: [
+              {
+                model: models.order_items,
                 attributes: [],
-                include: [
-                    {
-                        model: models.order_items,
-                        attributes: []
-                    }
-                ]
-            }
+              },
+            ],
+            where: {
+              order_date: {
+                [op.gte]: Sequelize.literal('DATE_SUB(CURDATE(), INTERVAL 30 DAY)'),
+              },
+            },
+          },
         ],
         group: ['customers.id'],
-        raw: true
+        raw: true,
     });
-      
+    
     console.table(q11result);
 
     // Query 12: Find all orders that have at least one product with a price greater than $90, along with the total number of such products in each order.
